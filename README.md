@@ -1,2 +1,3 @@
 # TryingPy
-Version: Python 3.8
+Spyder (Python 3.8)
+
