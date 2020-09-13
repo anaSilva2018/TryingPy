@@ -2,7 +2,7 @@
 """
 Created on Sat Sep 12 13:05:10 2020
 
-@author: Sofia
+@author: Ana Silva
 """
 
 import numpy as np
@@ -10,7 +10,7 @@ import numpy as np
 #Sb=100MW
 Sb = 100
 
-#                      Nó Tipo Pg(MW) Pc(MW) Qg(Mvar) Qc(Mvar) V(p.u)     Vn(kV) teta(º)    Pinj(p.u.)   Qinj(p.u.)
+#                      Bus Type Pg(MW) Pc(MW) Qg(Mvar) Qc(Mvar) V(p.u)     Vn(kV) teta(º)    Pinj(p.u.)   Qinj(p.u.)
 data_bus = np.matrix([[1, 1, 999,    20,    999,     5,        1.01,      150,     0.0000,    1.0023,   0.3652],
                       [2, 2, 0,      60,    0,       25,       0.9797,    150,    -2.0600,   -0.6000,  -0.2500],
                       [3, 2, 0,      40,    0,       15,       0.9906,    150,    -1.8700,   -0.4000,  -0.1500],
@@ -19,7 +19,7 @@ data_bus = np.matrix([[1, 1, 999,    20,    999,     5,        1.01,      150,  
 
 #NOTA: 1->REF; 2->PQ;3->PV
 
-#                      Nói Nój R(p.u.) X(p.u.) Smax(MVA)  Pij(p.u.)  Pji(p.u.) Qij(p.u.)  Qji(p.u.)           
+#                      Busi Busj R(p.u.) X(p.u.) Smax(MVA)  Pij(p.u.)  Pji(p.u.) Qij(p.u.)  Qji(p.u.)           
 data_lines = np.matrix([[1, 2, 0.03,    0.08,    62,       0.5190,   -0.5099,  0.1960,    -0.1723],
                         [1, 3, 0.05,    0.16,    70,       0.2210,   -0.2188,  0.0570,    -0.0484],
                         [1, 5, 0.09,    0.32,    45,       0.2619,   -0.2550,  0.1122,    -0.0870], 
@@ -45,7 +45,7 @@ data_Jacob = np.matrix([[19.39,  -8.70,    0.00,      0.00,      8.92,       -5.
                         [ 0.00,   0.00,    3.88,     -4.88,      0.00,        0.00,     10.57]]) # Q5
 
 #teta e P->PQ e PV
-#v e Q->PQ
+#V e Q->PQ
 
 bus = np.size(data_bus, axis=0)
 nlines = np.size(data_lines, axis=0)
