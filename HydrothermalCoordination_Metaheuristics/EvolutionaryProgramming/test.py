@@ -39,7 +39,7 @@ nPeriod = np.size(mdata_afl, 0)
 pop_inicial = np.random.uniform(0, 1, (nPeriod, MPar.pop))
 auxnewpop = np.zeros([nPeriod, MPar.pop])
 
-print("-------->> HydroThermal Coordination<<----- ")
+print("-------->> Hydro-Thermal Coordination<<----- ")
 print(f"Sigma= {MPar.sigma}, Population= {MPar.pop}, Generations= {MPar.germax}, load= {MPar.perload}p.u., Start Volume= {MPar.pervolin}p.u., Affluence= {MPar.perafl}p.u.")
 
 ger_best = np.zeros([1, MPar.germax])
@@ -80,7 +80,7 @@ for ncmg in range(230, 410, 10):
     np.savetxt('Outputs/'+str(ncmg)+'/bestcmg.csv', ger_bestcmg, delimiter=",", header="Marginal cost of the best individual (€/MW)", footer="NºGenerations= "+str(MPar.germax))
     np.savetxt('Outputs/'+str(ncmg)+'/Phidr.csv', ger_Phidr, delimiter=",", header="Hydro Power of the best individual (MW)", footer="NºGenerations= "+str(MPar.germax))
     np.savetxt('Outputs/'+str(ncmg)+'/Pterm.csv', ger_Pterm, delimiter=",", header="Thermal Power of the best individual (MW)", footer="NºGenerations= "+str(MPar.germax))
-    np.savetxt('Outputs/'+str(ncmg)+'/vturb.csv', ger_vturb, delimiter=",", header="Turbined Volume of the best individual (m3)", footer="NºGenerations= "+str(MPar.germax))
+    np.savetxt('Outputs/'+str(ncmg)+'/vturb.csv', ger_vturb, delimiter=",", header="Pumped Volume of the best individual (m3)", footer="NºGenerations= "+str(MPar.germax))
     np.savetxt('Outputs/'+str(ncmg)+'/vsobr.csv', ger_vsobr, delimiter=",", header="Remaining Volume of the best individual (m3)", footer="NºGenerations= "+str(MPar.germax))
         
 
