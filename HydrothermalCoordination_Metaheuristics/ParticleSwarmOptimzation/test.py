@@ -77,7 +77,7 @@ for ncmg in range(230, 410, 10):
 del(cger.gbest, cger.gcost, cger.gcmg, cger.gphidr, cger.gpterm, cger.gvturb, cger.gvsobr, cger)
 del(caux_bi, caux_bg, fpop_ant, mpaux_ant, mvaux_ant, mcaux_ant)
 del(auxpant, mPopula, mpaux_init, mvaux_init, mcaux_init)
-del(pop_initial, pop_ant, ncmg, mdata_afl, mdata_load, volinic, nPeriod)
+del(pop_initial, pop_ant, ncmg, mdata_afl, mdata_load, volinic, nPeriod, i, j)
 del(MPar.germax, MPar.perafl, MPar.perload, MPar.pervolin, MPar.pop, MPar.sigma)
 del(MHydTh.penaliz, MHydTh.ptermmax, MHydTh.vdispmax, MHydTh.vinicial, MHydTh.vturbmax)
 del(MSwarm._wc, MSwarm._wm, MSwarm._wi)
