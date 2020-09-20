@@ -22,15 +22,15 @@ def _calcgrad(cpar, cgen, cinitl):
             mgrad[i, 0] = (1-cpar.nlamb)*cgen[i, 5] + mgrad[i, 0]
             if(mpgv[i, 0] < mconst[i, 0]):
                 #Pmin penalty
-                mpen[i, 0] = np.power((mpgv[i, 0] - mconst[i, 0]), 2)
+                mpen[i, 0] = k*np.power((mpgv[i, 0] - mconst[i, 0]), 2)
                 mgrad[i, 0] = mgrad[i, 0] - 2*k*(mconst[i, 0] - mpgv[i, 0])
             if(mpgv[i, 0] > mconst[i+nger, 0]):
                 #Pmax penalty
-                mpen[i+nger, 0] = np.power((mpgv[i, 0] - mconst[i+nger, 0]), 2)
+                mpen[i+nger, 0] = k*np.power((mpgv[i, 0] - mconst[i+nger, 0]), 2)
                 mgrad[i, 0] = mgrad[i, 0] + 2*k*(mpgv[i, 0] - mconst[i+nger, 0])
             if(auxtload != mconst[2*nger, 0]):
                 #Pload penalty
-                mpen[2*nger, 0] = np.power((auxtload - mconst[2* nger, 0]), 2)
+                mpen[2*nger, 0] = k*np.power((auxtload - mconst[2* nger, 0]), 2)
                 mgrad[i, 0] = mgrad[i, 0] + 2*k*(auxtload-mconst[2*nger, 0])
         #maximum gradient
         posmax = np.argmax(mgrad, axis=0)
