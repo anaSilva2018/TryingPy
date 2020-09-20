@@ -5,7 +5,7 @@ Created on Sat Sep 19 21:25:04 2020
 @author: Ana Silva
 """
 import numpy as np
-def _CalcGrad(cpar, cgen, cinitl):
+def _calcgrad(cpar, cgen, cinitl):
     auxtload = cinitl.newload
     mpgv = cinitl.mpgval
     mconst = cinitl.mpgconst
