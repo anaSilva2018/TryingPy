@@ -5,8 +5,8 @@ Created on Sat Sep 19 14:55:37 2020
 @author: Ana Silva
 """
 import numpy as np
-from Functions.descgradient import _CalcGrad
-from Functions.initialisevalues import _Iniatilise
+from Functions.descgradient import _calcgrad
+from Functions.initialisevalues import _iniatilise
 #                    Gen_i  Bus_i  a(€/h)       b(€/MWh)       c(€/(MW)^2.h)   Emissions(kgCO2/MWh)     Pgmin(MW)   Pgmax(MW)       
 data_gen = np.matrix([[1, 1, 800, 20, 0.06, 80, 30, 90],
                       [2, 1, 800, 16, 0.1, 200, 20, 60],
@@ -28,8 +28,8 @@ class _DataPar:
 MPar = _DataPar(250, 0.95, 0.005)
 print("******Economical Dispatch*******")
 print(f"Case Study-> Load Power: {MPar.pload} MW Lambda: {MPar.nlamb} LearningRate: {MPar.learnrate}\n")
-[auxcinit, ctext] = _Iniatilise(data_gen, MPar)
-cGrad = _CalcGrad(MPar, data_gen, auxcinit)
+[auxcinit, ctext] = _iniatilise(data_gen, MPar)
+cGrad = _calcgrad(MPar, data_gen, auxcinit)
 print(f"PgValues(MW)\n {cGrad.mpgen}\n")
 print(f"GradientValues\n {cGrad.mgradient}\n")
 print(f"TOTAL PENALTY: {cGrad.totpen} €\n")    
