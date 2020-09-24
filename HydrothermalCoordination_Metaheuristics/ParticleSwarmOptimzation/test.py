@@ -6,11 +6,9 @@ Created on Tue Sep 15 21:08:44 2020
 """
 import os
 import numpy as np
-
-from Functions.moveandupdate import  _move_updatebest
-from Functions.evaluate import _pop_evaluate
 from Functions.mutate import _pop_mutate
 from Functions.best import _swarm_best
+from Functions.evaluateandmove import _pop_evaluate, _move_updatebest
 
 class _DataPop:
     def __init__(self, sigma, pop, germax, perload, pervolin, perafl):
@@ -20,7 +18,6 @@ class _DataPop:
         self.perload = perload
         self.pervolin = pervolin
         self.perafl = perafl
-
 class _DataHydTh:
     def __init__(self, vdispmax, vturbmax, vinicial, penaliz, ptermmax):
         self.vdispmax = vdispmax
@@ -28,13 +25,12 @@ class _DataHydTh:
         self.vinicial = vinicial
         self.penaliz = penaliz
         self.ptermmax = ptermmax
-        
 class _DataSwarm:
     def __init__(self, _wi, _wm, _wc):
         self._wi = _wi
         self._wm = _wm
         self._wc = _wc
-     
+        
 MPar = _DataPop(0.005, 20, 1000, 1, 1, 1)
 MHydTh = _DataHydTh(150000, 80000, 40000, 1000, 80)
 MSwarm = _DataSwarm(0.5, 1, 1) 
@@ -53,18 +49,19 @@ for ncmg in range(230, 410, 10):
     for i in range(nPeriod):
         for j in range(MPar.pop):
             pop_initial[i, j] = np.random.uniform(0, 1, 1)
-    [mvaux_init, mpaux_init, mcaux_init, mPopula]=_pop_evaluate(nPeriod, MPar, MHydTh, volinic, mdata_afl, pop_initial, mdata_load, ncmg)
+    [mvaux_init, mpaux_init, mcaux_init, mPopula] =_pop_evaluate(nPeriod, MPar, MHydTh, volinic, mdata_afl, pop_initial, mdata_load, ncmg)
     auxpant = _pop_mutate(MPar.pop, nPeriod, mPopula, MPar.sigma)
     for i in range(nPeriod):
         for j in range(MPar.pop):
             pop_ant[i, j] = auxpant[i, j]
-    [mvaux_ant, mpaux_ant, mcaux_ant, fpop_ant]=_pop_evaluate(nPeriod, MPar, MHydTh, volinic, mdata_afl, pop_ant, mdata_load, ncmg)
-    [caux_bi, caux_bg]= _swarm_best(mPopula, fpop_ant, nPeriod, MPar.pop, mpaux_init, mvaux_init, mcaux_init, mpaux_ant, mvaux_ant, mcaux_ant)
+    [mvaux_ant, mpaux_ant, mcaux_ant, fpop_ant] =_pop_evaluate(nPeriod, MPar, MHydTh, volinic, mdata_afl, pop_ant, mdata_load, ncmg)
+    [caux_bi, caux_bg] = _swarm_best(mPopula, fpop_ant, nPeriod, MPar.pop, mpaux_init, mvaux_init, mcaux_init, mpaux_ant, mvaux_ant, mcaux_ant)
     #move and update
-    cger =_move_updatebest(caux_bi, caux_bg, mPopula, MPar.pop, nPeriod, MPar.germax, MSwarm, fpop_ant, MPar, MHydTh, volinic, mdata_afl, mdata_load, ncmg)
-    print("Exporting data...") 
+    cger = _move_updatebest(caux_bi, caux_bg, mPopula, MPar.pop, nPeriod, MPar.germax, MSwarm, fpop_ant, MPar, MHydTh, volinic, mdata_afl, mdata_load, ncmg)
+    print(cger.gcost[0, MPar.germax-1])
+    print("Exporting data...")
     if(not os.path.exists("Outputs/"+str(ncmg))):
-        os.mkdir("Outputs/" +str(ncmg))     
+        os.mkdir("Outputs/" +str(ncmg))
     np.savetxt('Outputs/'+str(ncmg)+'/nbest.csv', cger.gbest, delimiter=",", header="Position of the best individual", footer="NºGenerations="+str(MPar.germax))
     np.savetxt('Outputs/'+str(ncmg)+'/bestcost.csv', cger.gcost, delimiter=",", header="Best cost found (€)", footer="NºGenerations="+str(MPar.germax))
     np.savetxt('Outputs/'+str(ncmg)+'/bestcmg.csv', cger.gcmg, delimiter=",", header="Marginal cost of the best individual (€/MW)", footer="NºGenerations= "+str(MPar.germax))
@@ -72,7 +69,6 @@ for ncmg in range(230, 410, 10):
     np.savetxt('Outputs/'+str(ncmg)+'/Pterm.csv', cger.gpterm, delimiter=",", header="Thermal Power of the best individual (MW)", footer="NºGenerations= "+str(MPar.germax))
     np.savetxt('Outputs/'+str(ncmg)+'/vturb.csv', cger.gvturb, delimiter=",", header="Pumped Volume of the best individual (m3)", footer="NºGenerations= "+str(MPar.germax))
     np.savetxt('Outputs/'+str(ncmg)+'/vsobr.csv', cger.gvsobr, delimiter=",", header="Remaining Volume of the best individual (m3)", footer="NºGenerations= "+str(MPar.germax))
-    
 
 del(cger.gbest, cger.gcost, cger.gcmg, cger.gphidr, cger.gpterm, cger.gvturb, cger.gvsobr, cger)
 del(caux_bi, caux_bg, fpop_ant, mpaux_ant, mvaux_ant, mcaux_ant)
