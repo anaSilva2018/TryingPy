@@ -5,6 +5,18 @@ Created on Sat Sep 19 21:25:04 2020
 @author: Ana Silva
 """
 import numpy as np
+
+def _calctcost(data_gen, pgval, cinit, cpar, mpen):
+    nger = cinit.ngen
+    mems = 0
+    mcprod = 0
+    mcost = 0
+    for i in range(nger):
+        mems = pgval[i, 0]*data_gen[i, 5]+mems
+        mcprod = data_gen[i, 2]+pgval[i, 0]*data_gen[i, 3]+mcprod
+        mcprod = np.power(pgval[i, 0], 2)*data_gen[i, 4]+mcprod
+    mcost = cpar.nlamb*mcprod+(1-cpar.nlamb)*mems+np.sum(mpen)
+    return mcost, mems, mcprod
 def _calcgrad(cpar, cgen, cinitl):
     auxtload = cinitl.newload
     mpgv = cinitl.mpgval
@@ -13,8 +25,9 @@ def _calcgrad(cpar, cgen, cinitl):
     mpen = np.zeros([2*nger + 1, 1])
     mgrad = np.zeros([nger, 1])
     k = 1
+    cmin = np.power(10,9)
     while(auxtload != cpar.pload):
-        print(f"************k = {k}***************")
+        #print(f"************k = {k}***************")
         #gradient and penalties values
         for i in range(nger):
             #Prodution Cost
@@ -32,10 +45,13 @@ def _calcgrad(cpar, cgen, cinitl):
                 #Pload penalty
                 mpen[2*nger, 0] = k*np.power((auxtload - mconst[2* nger, 0]), 2)
                 mgrad[i, 0] = mgrad[i, 0] + 2*k*(auxtload-mconst[2*nger, 0])
+        totalpen = np.sum(mpen)
         #maximum gradient
         posmax = np.argmax(mgrad, axis=0)
+        #totalcost
+        [auxcost, auxems, auxcprod] = _calctcost(cgen, mpgv, cinitl, cpar, mpen)
         #update step; update pg and load values
-        print(f"\t\t Generator {posmax+1} / Load : {auxtload} MW")
+        #print(f"\t\t Generator {posmax+1} / Load : {auxtload} MW")
         auxstep = cpar.learnrate
         auxnext = mpgv[posmax, 0] - auxstep*mgrad[posmax, 0]
         auxtload = 0
@@ -46,19 +62,36 @@ def _calcgrad(cpar, cgen, cinitl):
             auxstep = auxstep*0.5
             auxnext = mpgv[posmax, 0] - auxstep*mgrad[posmax, 0]
         auxtload = auxtload + auxnext
-        
-        print(f"Newvalue->{auxnext} TotalLoad->{auxtload} Step->{auxstep}\n")
+        #print(f"Newvalue->{auxnext} TotalLoad->{auxtload} Step->{auxstep}\n")
         mpgv[posmax, 0] = auxnext
-        k = k+1   
-    
-    totalpen = np.sum(mpen)
-    class _Cgrad:
-        def __init__(self, mpgen, mgradient, mpenalis, totpen, totload):
-            self.mpgen = mpgen
-            self.mgradient = mgradient
-            self.mpenalis = mpenalis
-            self.totpen = totpen
-            self.totload = totload
-    cauxg = _Cgrad(mpgv, mgrad, mpen, totalpen, auxtload)
-    return cauxg
-    
+        if(auxcost < cmin):
+            cmin = auxcost
+            cbest = cmin
+            loadbest = auxtload
+            mvalb = mpgv
+            penbest = totalpen
+            mpenbest = mpen
+            mgradbest = mgrad
+            posbest = posmax
+            cprod = auxcprod
+            cems = auxems
+            kbest = k   
+        k = k+1
+    class _Rcost:
+        def __init__(self, ntotalcost, ntotalpen, mpen, cemis, cprod):
+            self.ntotalcost = ntotalcost
+            self.ntotalpen = ntotalpen
+            self.mpen = mpen
+            self.cemis = cemis
+            self.cprod = cprod
+    class _Rval:
+        def __init__(self, mpval, nload, mgrad, nmax, nk):
+            self.mpval = mpval
+            self.nload = nload
+            self.mgrad = mgrad
+            self.nmax = nmax
+            self.nk = nk
+    crcost = _Rcost(cbest, penbest, mpenbest, cems, cprod)
+    crval = _Rval(mvalb, loadbest, mgradbest, posbest, kbest)
+    print(f"\nTotalcost: {cbest:.2f} € -> Generation Cost {cprod:.2f} € / Emissions {cems:.2f}")
+    return crcost, crval
