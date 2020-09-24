@@ -36,4 +36,3 @@ def _iniatilise(cgen, cpar):
     cauxinit = _Cinit(pgval, pgconst, auxtload, ngen)
     cauxt = _TextInit(text_const, text_Pg)
     return cauxinit, cauxt
-    
