@@ -9,7 +9,7 @@ from Functions.lines import _flines
 from Functions.difuse import _mZdif, _matrixA, _mXdif, _Pdifuse
 #Sb=100MW
 Sb = 100
-#                     Bus Type Pg(MW) Pc(MW) Qg(Mvar) Qc(Mvar)      Vn(kV)
+#                     Bus Type Pg(MW) Pc(MW) Qg(Mvar) Qc(Mvar) Vn(kV)
 data_bus = np.matrix([[1, 1, 999, 20, 999, 5, 150],
                       [2, 2, 0, 60, 0, 25, 150],
                       [3, 2, 0, 40, 0, 15, 150],
