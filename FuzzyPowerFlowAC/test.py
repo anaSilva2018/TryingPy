@@ -61,3 +61,6 @@ np.savetxt('Outputs/Qijdif.csv', Mpqdif.mqdif, delimiter=",", header='[Qlmin, Ql
 np.savetxt('Outputs/Plossesdif.csv', Mlosses.mpdif, delimiter=",", header='[plmin, plcent, plmax]', footer=Mdeltapq.txtp)
 np.savetxt('Outputs/Qlossesdif.csv', Mlosses.mqdif, delimiter=",", header='[qlmin, qlcent, qlmax]', footer=Mdeltapq.txtq)
 print("Open folder -> Outputs <-\n")
+
+del(Mlosses, Mpqdif, Mdeltapq, Mxdif, Mdeltax, Mzdif)
+del(Mlines, Mbus, Sb, data_Jacob, data_bus, data_difuse, data_lines)
