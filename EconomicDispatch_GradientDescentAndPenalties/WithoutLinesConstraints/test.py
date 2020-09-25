@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Sep 19 14:55:37 2020
-
 @author: Ana Silva
 """
 
@@ -34,12 +32,14 @@ print(f"Case Study-> Load Power: {MPar.pload} MW Lambda: {MPar.nlamb} LearningRa
 print(f"PgValues(MW)\n {cval.mpval}\n")
 print(f"GradientValues\n {cval.mgrad}\n")
 print(f"TOTAL PENALTY: {ccost.ntotalpen} €\n")
+
 text_file = open("Outputs/totalcost.txt", "w")
 text_file.write(f"Totalcost: {ccost.ntotalcost:.2f} €/ GenerationCost {ccost.cprod:.2f} € /Emissions {ccost.cemis:.2f} €/ Penalties {ccost.ntotalpen:.2f} €")
 text_file.close()
 np.savetxt('Outputs/Pgvalues.csv', cval.mpval, delimiter=",", header="Load_Dispatch_(MW)", footer="Rows:"+ctext.tpg)
 np.savetxt('Outputs/MGradient.csv', cval.mgrad, delimiter=",", header="Gradient_Matrix", footer="Rows:"+ctext.tpg)
 np.savetxt('Outputs/Totalpenalty.csv', ccost.mpen, delimiter=",", header="Penalties(€)", footer="Rows:"+ctext.tcst)
+
 del(ctext.tpg, ctext.tcst, ctext)
 del(cval.mpval, cval.mgrad, ccost.mpen, ccost.ntotalpen, ccost, cval)
 del(auxcinit.mpgval, auxcinit.mpgconst, auxcinit.newload, auxcinit.ngen, auxcinit)
