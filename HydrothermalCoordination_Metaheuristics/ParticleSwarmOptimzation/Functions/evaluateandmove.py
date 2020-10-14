@@ -103,8 +103,11 @@ def _move_updatebest(cbi, cbg, mpop, pop, nper, ngermax, cSwarm, mpop_ant, cpar,
     ger_Pterm[:, 0] = cbi_pterm[:, cbg_nbg]
     ger_vturb[:, 0] = cbi_vturb[:, cbg_nbg]
     ger_vsobr[:, 0] = cbi_vsobr[:, cbg_nbg]
+    
+    w = cSwarm._wm+cSwarm._wc
+    k = 2/np.abs(2-w-np.sqrt(np.power(w, 2)-4*w))
+    
     mPopul = mpop
-
     for ger in range(0, ngermax-1, 1):
         auxnewpop = np.zeros([nper+1, pop])
         for j in range(pop):
@@ -113,6 +116,8 @@ def _move_updatebest(cbi, cbg, mpop, pop, nper, ngermax, cSwarm, mpop_ant, cpar,
                 auxnewpop[i, j] = nDEC*cSwarm._wi*(mPopul[i, j]-mpop_ant[i, j])
                 auxnewpop[i, j] = auxnewpop[i, j]+ np.random.uniform(0, 1, 1)*cSwarm._wm*(cbi_pop[i, j]-mPopul[i, j])
                 auxnewpop[i, j] = auxnewpop[i, j]+ np.random.uniform(0, 1, 1)*cSwarm._wc*(cbi_pop[i, cbg_nbg]-mPopul[i, j]) 
+                auxnewpop[i, j] = auxnewpop[i, j]*k
+                auxnewpop[i, j] = auxnewpop[i, j]+mPopul[i, j]
                 if(auxnewpop[i, j] > 1):
                     auxnewpop[i, j] = 1
                 elif(auxnewpop[i, j] < 0):
