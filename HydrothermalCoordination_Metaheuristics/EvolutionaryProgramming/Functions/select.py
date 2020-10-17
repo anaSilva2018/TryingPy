@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Sep 15 21:55:58 2020
-
 @author: Ana Silva
 """
 import numpy as np
@@ -32,8 +30,6 @@ def _cSelect(pop, nper, mmutate, ccost, cvol, cpot):
     mvhsel = np.zeros([nper, pop])
     mvdsel = np.zeros([nper, pop])
     mcmgsel = np.zeros([1, pop])
-    
-   
     
     for k in range(pop):
         auxcmin = np.power(10, 9)
