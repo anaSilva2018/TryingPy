@@ -29,9 +29,9 @@ class _DataSwarm:
         self._wm = _wm
         self._wc = _wc
         
-MPar = _DataPop(0.005, 20, 1000, 1, 1, 1)
+MPar = _DataPop(0.05, 20, 2000, 1, 1, 1)
 MHydTh = _DataHydTh(150000, 80000, 40000, 1000, 80)
-MSwarm = _DataSwarm(0.5, 1, 1) 
+MSwarm = _DataSwarm(0.1, 2, 2) 
 mdata_afl = np.matrix([[35000], [60000], [20000], [10000], [50000], [10000]])*MPar.perafl
 mdata_load = np.matrix([[70], [80], [130], [50], [70], [110]])*MPar.perload
 volinic = MPar.pervolin* MHydTh.vinicial
