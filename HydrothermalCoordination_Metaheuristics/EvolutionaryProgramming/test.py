@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Sep 15 21:08:44 2020
-
 @author: Ana Silva
 """
 import os
@@ -80,8 +78,6 @@ for ncmg in range(230, 410, 10):
     np.savetxt('Outputs/'+str(ncmg)+'/vturb.csv', ger_vturb, delimiter=",", header="Pumped Volume of the best individual (m3)", footer="NºGenerations= "+str(MPar.germax))
     np.savetxt('Outputs/'+str(ncmg)+'/vsobr.csv', ger_vsobr, delimiter=",", header="Remaining Volume of the best individual (m3)", footer="NºGenerations= "+str(MPar.germax))
         
-
-
 del(ger_best, ger_bestcmg, ger_bestcost, ger_Phidr, ger_Pterm, ger_vturb, ger_vsobr)
 del(mPopula, auxcost, auxdup, auxmut, auxpot, auxselect, auxvol)
 del(mdata_afl, mdata_load, pop_inicial, auxnewpop, volinic, ncmg, nPeriod, ger)
