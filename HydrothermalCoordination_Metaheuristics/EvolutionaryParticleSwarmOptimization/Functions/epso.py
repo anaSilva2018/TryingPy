@@ -1,18 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Oct 17 00:18:09 2020
-
-@author: Sofia
+@author: Ana Silva
 """
 import numpy as np
 from Functions.selection import _cselect
-
 from Functions.duplicate import _popdupl
 from Functions.mutate import _popmut
 from Functions.evoluate import _pop_evaluate
-
 from Functions.swarmbest import _swarm_best
-
 
 def _dupmut(cwicm, mpopi, cpar, nper):
     mwid = _popdupl(cpar, cwicm.mwi, nper+1, nper+1)
